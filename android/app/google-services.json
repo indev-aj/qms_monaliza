@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "530023812682",
+    "firebase_url": "https://qms-monaliza.firebaseio.com",
+    "project_id": "qms-monaliza",
+    "storage_bucket": "qms-monaliza.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:530023812682:android:c55a1309170a2c6457a0b3",
+        "android_client_info": {
+          "package_name": "com.example.qms_monaliza"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "530023812682-mmit7goe3nlaf4bpm2kpf63rvini06t0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDAMArEFXuBJKh09aFtCLcc0D6DtABu5Es"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "530023812682-mmit7goe3nlaf4bpm2kpf63rvini06t0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
