@@ -16,6 +16,9 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'QMS Monaliza',
+        theme: ThemeData(
+          appBarTheme: AppBarTheme(color: Color(0XFFFD7E14)),
+        ),
         home: HomeScreen()
       ),
     );

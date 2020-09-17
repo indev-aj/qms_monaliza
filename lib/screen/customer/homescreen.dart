@@ -23,8 +23,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   int lastNumber;
   int myNumber = 0;
 
-  String msg = '';
-  String _state = '';
+  String _state;
 
   @override
   void initState() {
@@ -98,7 +97,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   }
 
   @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
     super.didChangeAppLifecycleState(state);
 
     switch (state) {
@@ -133,7 +132,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0XFFfd7e14),
         title: Text('QMS Monaliza'),
         centerTitle: true,
         leading: IconButton(
@@ -159,8 +157,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                     SizedBox(height: 10),
                     myNumber < 1 ? sub(' ') : sub('$myNumber'),
                     SizedBox(height: 50),
-                    sub('$_state'),
-                    SizedBox(height: 30),
                     ButtonTheme(
                       height: 50,
                       minWidth: 200,

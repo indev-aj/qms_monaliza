@@ -50,7 +50,6 @@ class _AdminScreenState extends State<AdminScreen> {
     return Scaffold(
       key: globalKey,
       appBar: AppBar(
-        backgroundColor: Color(0XFFfd7e14),
         title: Text('QMS Monaliza'),
         centerTitle: true,
         leading: IconButton(
@@ -101,7 +100,7 @@ class _AdminScreenState extends State<AdminScreen> {
       height: 50,
       minWidth: 100,
       child: RaisedButton(
-        color: Color(0XFFfd7e14),
+        color: Color(0XFFFD7E14),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5),
         ),
