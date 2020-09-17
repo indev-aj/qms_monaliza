@@ -12,7 +12,7 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   final Storage storage = Storage();
   final DatabaseReference databaseReference =
       FirebaseDatabase.instance.reference();
@@ -24,19 +24,17 @@ class _HomeScreenState extends State<HomeScreen> {
   int myNumber = 0;
 
   String msg = '';
-  String a = '';
-
-  bool done = false;
+  String _state = '';
 
   @override
   void initState() {
     if (!this.mounted) return;
 
-    // storage.deleteFile();
     super.initState();
 
+    WidgetsBinding.instance.addObserver(this);
+
     storage.readNumber().then((int value) {
-      print(value);
       setState(() {
         myNumber = value;
       });
@@ -69,13 +67,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   .once()
                   .then((DataSnapshot snapshot) {
                 var data = snapshot.value as Map;
-                var k;
 
                 data.forEach((key, value) {
                   if (_platformVersion == key) {
                     // TODO: Inform User
                     setState(() {
-                      k = key;
                       storage.deleteFile();
                       myNumber = 0;
                     });
@@ -92,6 +88,45 @@ class _HomeScreenState extends State<HomeScreen> {
     });
 
     initPlatformState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    WidgetsBinding.instance.removeObserver(this);
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+
+    switch (state) {
+      case AppLifecycleState.paused:
+        setState(() {
+          _state = 'Paused';
+          print('Paused');
+        });
+        break;
+      case AppLifecycleState.inactive:
+        setState(() {
+          print('Inactive');
+          _state = 'Inactive';
+        });
+        break;
+      case AppLifecycleState.resumed:
+        setState(() {
+          print('Resumed');
+          _state = 'Resumed';
+        });
+        break;
+      case AppLifecycleState.detached:
+        setState(() {
+          print('Detached');
+          _state = 'Detached';
+        });
+        break;
+    }
   }
 
   @override
@@ -124,6 +159,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     SizedBox(height: 10),
                     myNumber < 1 ? sub(' ') : sub('$myNumber'),
                     SizedBox(height: 50),
+                    sub('$_state'),
+                    SizedBox(height: 30),
                     ButtonTheme(
                       height: 50,
                       minWidth: 200,
