@@ -122,10 +122,11 @@ class _AdminScreenState extends State<AdminScreen> {
                 setState(() {
                   currentNumber += 1;
                 });
-              } else {
-                globalKey.currentState.showSnackBar(
-                    snackBar(0XFFFFC107, 'NO MORE CUSTOMER IN LINE'));
-              }
+              } 
+              // else {
+              //   globalKey.currentState.showSnackBar(
+              //       snackBar(0XFFFFC107, 'NO MORE CUSTOMER IN LINE'));
+              // }
 
               databaseReference.child('number').update({
                 'currentNumber': currentNumber,
