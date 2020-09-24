@@ -65,7 +65,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
                 data.forEach((key, value) {
                   if (_platformVersion == key) {
-                    // TODO: Inform User
                     globalKey.currentState
                         .showSnackBar(snackBar(0XFFFFC107, "IT'S YOUR TURN"));
                     setState(() {
