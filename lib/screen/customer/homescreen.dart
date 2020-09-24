@@ -13,6 +13,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
+  final GlobalKey<ScaffoldState> globalKey = GlobalKey();
+
   final Storage storage = Storage();
   final DatabaseReference databaseReference =
       FirebaseDatabase.instance.reference();
@@ -32,12 +34,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     super.initState();
 
     WidgetsBinding.instance.addObserver(this);
-
-    storage.readNumber().then((int value) {
-      setState(() {
-        myNumber = value;
-      });
-    });
 
     setState(() {
       getCurrentNumber();
@@ -70,6 +66,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 data.forEach((key, value) {
                   if (_platformVersion == key) {
                     // TODO: Inform User
+                    globalKey.currentState
+                        .showSnackBar(snackBar(0XFFFFC107, "IT'S YOUR TURN"));
                     setState(() {
                       storage.deleteFile();
                       myNumber = 0;
@@ -104,25 +102,25 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       case AppLifecycleState.paused:
         setState(() {
           _state = 'Paused';
-          print('Paused');
+          print(_state);
         });
         break;
       case AppLifecycleState.inactive:
         setState(() {
-          print('Inactive');
           _state = 'Inactive';
+          print(_state);
         });
         break;
       case AppLifecycleState.resumed:
         setState(() {
-          print('Resumed');
           _state = 'Resumed';
+          print(_state);
         });
         break;
       case AppLifecycleState.detached:
         setState(() {
-          print('Detached');
           _state = 'Detached';
+          print(_state);
         });
         break;
     }
@@ -131,6 +129,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: globalKey,
       appBar: AppBar(
         title: Text('QMS Monaliza'),
         centerTitle: true,
@@ -182,17 +181,27 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     );
   }
 
-  // Get the latest number from DB
+  /// Get the latest number from DB
+  /// 
+  /// Only read local data if current number is greater than zero
   void getCurrentNumber() {
     databaseReference.once().then((DataSnapshot snapshot) {
       setState(() {
         var data = snapshot.value;
         currentNumber = data['number']['currentNumber'];
+
+        if (currentNumber > 0) {
+          storage.readNumber().then((int value) {
+            setState(() {
+              myNumber = value;
+            });
+          });
+        }
       });
     });
   }
 
-  // Get new number from DB
+  /// Get new number from DB
   void getMyNumber() {
     databaseReference.once().then((DataSnapshot snapshot) {
       setState(() {
@@ -214,7 +223,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     });
   }
 
-  // Get MAC Address
+  /// Get MAC Address of the device
   Future<void> initPlatformState() async {
     String platformVersion;
 
