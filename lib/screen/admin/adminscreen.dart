@@ -108,11 +108,7 @@ class _AdminScreenState extends State<AdminScreen> {
           switch (text) {
             case 'RESET':
               // Reset counter
-              databaseReference.child('number').update({
-                'currentNumber': 0,
-                'lastNumber': 0,
-              });
-              databaseReference.child('customer').remove();
+              _showMyDialog();
               break;
             case 'NEXT':
               getCurrentNumber();
@@ -121,11 +117,7 @@ class _AdminScreenState extends State<AdminScreen> {
                 setState(() {
                   currentNumber += 1;
                 });
-              } 
-              // else {
-              //   globalKey.currentState.showSnackBar(
-              //       snackBar(0XFFFFC107, 'NO MORE CUSTOMER IN LINE'));
-              // }
+              }
 
               databaseReference.child('number').update({
                 'currentNumber': currentNumber,
@@ -142,6 +134,38 @@ class _AdminScreenState extends State<AdminScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  Future<void> _showMyDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("ALERT"),
+          content: Text('Reset Counter?'),
+          actions: [
+            FlatButton(
+              child: Text('NO'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            FlatButton(
+              child: Text('YES'),
+              onPressed: () {
+                databaseReference.child('number').update({
+                  'currentNumber': 0,
+                  'lastNumber': 0,
+                });
+                databaseReference.child('customer').remove();
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }
